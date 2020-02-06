@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- <script src="https://npmcdn.com/vue/dist/vue.js"></script> -->
+</head>
+<body>
+    <div id="exercise">
+        <!-- 1) Start the Effect with the Button. The Effect should alternate the "highlight" or "shrink" class on each new setInterval tick (attach respective class to the div with id "effect" below) -->
+        <p>Exercise-1</p> 
+        <div>
+          <button @click="startEffect">Start Effect</button>
+          <div id="effect" :class="myStyleClass"></div>
+        </div>
+        <!-- 2) Create a couple of CSS classes and attach them via the array syntax -->
+        <p>Exercise-2</p> 
+        <div :class="[styleGold, styleHealthy]">I got no class :(</div>
+        <!-- 3) Let the user enter a class (create some example classes) and attach it -->
+        <p>Exercise-3</p> 
+        <div>
+          <input type="text" v-model="userClass">
+          <div :class="userClass"></div>
+        </div>
+        <!-- 4) Let the user enter a class and enter true/ false for another class (create some example classes) and attach the classes -->
+        <p>Exercise-4</p> 
+        <div>
+          <input type="text" v-model="userClass2">
+          <input type="text" v-model="highlightYesNo">
+          <div :class="[userClass2, {highlight: doHighlight}]"></div>
+        </div>
+        <!-- 5) Repeat 3) but now with values for styles (instead of class names). Attach the respective styles.  -->
+        <p>Exercise-5</p> 
+        <div>
+          <input type="number" v-model="userWidth">
+          <div :style="myStyle"></div>
+        </div>
+        <!-- 6) Create a simple progress bar with setInterval and style bindings. Start it by hitting the below button. -->
+        <p>Exercise-6</p> 
+        <div>
+          <button @click="startProgress = !startProgress">Start Progress</button>
+          <div :style="myStyle"></div>
+        </div>
+      </div>      
+</body>
+</html>
+<script src="https://npmcdn.com/vue/dist/vue.js"></script>
+<script src="app.js"></script>
