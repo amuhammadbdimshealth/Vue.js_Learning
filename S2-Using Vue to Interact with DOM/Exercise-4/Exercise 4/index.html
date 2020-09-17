@@ -28,7 +28,9 @@
         <!-- 4) Let the user enter a class and enter true/ false for another class (create some example classes) and attach the classes -->
         <p>Exercise-4</p> 
         <div>
+          <p>Enter a class (healthy/shrink/golden)</p>
           <input type="text" v-model="userClass2">
+          <p>Highlight (true/false)</p>
           <input type="text" v-model="highlightYesNo">
           <div :class="[userClass2, {highlight: doHighlight}]"></div>
         </div>

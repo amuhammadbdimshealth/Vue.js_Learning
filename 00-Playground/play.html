@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="example-1">
+            <button v-on:click="counter += 2">Add 2</button>
+            <p>The button above has been clicked {{ counter }} times.</p>
+        </div>
+
+        <div id="example-2">
+            <!-- `greet` is the name of a method defined below -->
+            <button v-on:click="greet">Greet</button>
+        </div>
+
+        <div id="example-3">
+            <button v-on:click="say('hi')">Say hi</button>
+            <button v-on:click="say('what')">Say what</button>
+            <form action="/">
+                <input
+                    type="submit"
+                    v-on:click.prevent="warn('Form cannot be submitted yet.', $event)"
+                    value="Save"
+                />
+            </form>
+        </div>
+
+        <div id="example-4">
+            <h4>Checkbox</h4>
+            <input
+                type="checkbox"
+                id="jack"
+                value="Jack"
+                v-model="checkedNames"
+            />
+            <label for="jack">Jack</label>
+            <input
+                type="checkbox"
+                id="john"
+                value="John"
+                v-model="checkedNames"
+            />
+            <label for="john">John</label>
+            <input
+                type="checkbox"
+                id="mike"
+                value="Mike"
+                v-model="checkedNames"
+            />
+            <label for="mike">Mike</label>
+            <br />
+            <span>Checked names: {{ checkedNames }}</span>
+
+            <h4>Select</h4>
+            <select v-model="selected">
+                <option disabled value="">Please select one</option>
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+            </select>
+            <span>Selected: {{ selected }}</span>
+
+            <h4>Dynamic options rendered with v-for:</h4>
+            <select v-model="selectedDynamic">
+                <option v-for="option in options" v-bind:value="option.value">
+                    {{ option.text }}
+                </option>
+            </select>
+            <span>selectedDynamic: {{ selectedDynamic }}</span>
+        </div>
+
+        <div id="example-5">
+            <h4>Value bindings</h4>
+            <h5>Radio</h5>
+            <input
+                type="radio"
+                v-model="pick"
+                v-bind:value="radioObjectOption1"
+            />
+            <h5>Select</h5>
+            <select v-model="selectedVbind">
+                <!-- inline object literal -->
+                <option v-bind:value="{ number: 123 }">123</option>
+            </select>
+        </div>
+
+        <!-- Components -->
+        <div id="components-demo">
+            <button-counter></button-counter>
+            <button-counter></button-counter>
+            <button-counter></button-counter>
+
+            <blog-post title="My first blog"></blog-post>
+            <blog-post title="My second blog"></blog-post>
+
+            <blog-post
+                v-for="post in posts"
+                v-bind:key="post.id"
+                v-bind:title="post.title"
+                v-bind:image="post.imageLink"
+            ></blog-post>
+        </div>
+    </body>
+
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="./play.js"></script>
+</html>
