@@ -1,110 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-    </head>
-    <body>
-        <div id="example-1">
-            <button v-on:click="counter += 2">Add 2</button>
-            <p>The button above has been clicked {{ counter }} times.</p>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="play.css" />
+    <title>Vue.js Basics</title>
+  </head>
+  <body>
+    <h1>Vue Basics - Playground</h1>
+    <a href="https://vuejs.org/v2/guide/">Official Guide Link</a>
+    <!-- Raw html -->
+    <div id="example-0">
+      <p>Using mustaches: {{ rawHtml }}</p>
+      <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+    </div>
+    <hr>
+    <!-- Inline expressions -->
+    <div id="example-1">
+      <button v-on:click="counter += 2">Add 2</button>
+      <p>The button above has been clicked {{ counter }} times.</p>
+    </div>
+    <hr>
+    <!-- Calling methods -->
+    <div id="example-2">
+      <!-- `greet` is the name of a method defined below -->
+      <button v-on:click="greet">Greet</button>
+    </div>
+    <hr>
+    <!-- Calling functions inline and Event modifiers -->
+    <div id="example-3">
+      <button v-on:click="say('hi')">Say hi</button>
+      <button v-on:click="say('what')">Say what</button>
+      <form action="/">
+        <input
+          type="submit"
+          v-on:click.prevent="warn('Form cannot be submitted yet.', $event)"
+          value="Save"
+        />
+      </form>
+    </div>
+    <hr>
+    <!-- Form inputs -->
+    <div id="example-4">
+      <h4>Checkbox</h4>
+      <input type="checkbox" id="jack" value="Jack" v-model="checkedNames" />
+      <label for="jack">Jack</label>
+      <input type="checkbox" id="john" value="John" v-model="checkedNames" />
+      <label for="john">John</label>
+      <input type="checkbox" id="mike" value="Mike" v-model="checkedNames" />
+      <label for="mike">Mike</label>
+      <br />
+      <span>Checked names: {{ checkedNames }}</span>
+      <hr>
+      <h4>Select</h4>
+      <select v-model="selected">
+        <option disabled value="">Please select one</option>
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+      </select>
+      <span>Selected: {{ selected }}</span>
+      <hr>
+      <h4>Dynamic options rendered with v-for:</h4>
+      <select v-model="selectedDynamic">
+        <option v-for="option in options" v-bind:value="option.value">
+          {{ option.text }}
+        </option>
+      </select>
+      <span>selectedDynamic: {{ selectedDynamic }}</span>
+    </div>
+    <hr>
+    <!-- Value bindings -->
+    <div id="example-5">
+      <h5>Radio</h5>
+      <input type="radio" v-model="pick" v-bind:value="radioObjectOption1" />
+      <h5>Select</h5>
+      <select v-model="selectedVbind">
+        <!-- inline object literal -->
+        <option v-bind:value="{ number: 123 }">123</option>
+      </select>
+    </div>
+    <hr>
+    <!-- Components -->
+    <h4>Components</h4>
+    <div id="components-demo">
+      <button-counter></button-counter>
+      <button-counter></button-counter>
+      <button-counter></button-counter>
 
-        <div id="example-2">
-            <!-- `greet` is the name of a method defined below -->
-            <button v-on:click="greet">Greet</button>
-        </div>
+      <blog-post title="My first blog"></blog-post>
+      <blog-post title="My second blog"></blog-post>
 
-        <div id="example-3">
-            <button v-on:click="say('hi')">Say hi</button>
-            <button v-on:click="say('what')">Say what</button>
-            <form action="/">
-                <input
-                    type="submit"
-                    v-on:click.prevent="warn('Form cannot be submitted yet.', $event)"
-                    value="Save"
-                />
-            </form>
-        </div>
+      <!-- Iterate over the list and render components dynamically for each element-->
+      <blog-post
+        v-for="post in posts"
+        v-bind:key="post.id"
+        v-bind:title="post.title"
+        v-bind:image="post.imageLink"
+      ></blog-post>
+      <hr>
+      <!-- Passing objects as props to child components -->
+      <blog-post2
+        v-for="post in posts"
+        v-bind:key="post.id"
+        v-bind:post="post"
+      ></blog-post2>
+    </div>
+    <hr>
+    <!-- Listening to Child Components Events -->
+    <!-- Emitting a Value With an Event -->
+    <div id="blog-posts-events-demo">
+      <div :style="{ fontSize: postFontSize + 'px' }">
+        <blog-post3
+          v-for="post in posts"
+          v-bind:key="post.id"
+          v-bind:post="post"
+          v-on:enlarge-text="postFontSize+=$event"
+          v-on:shrink-text="onShrinkText"
+        ></blog-post3>
+      </div>
+    </div>
+    <hr>
+    <!-- Using v-model on Components -->
+    <div id="vmodel-on-components">
+      <h4>Simple input</h4>
+      <!-- Simple v-model binding -->
+      <input type="text" v-model="myInputValue1" />
+      <br>
+      <!-- Same as -->
+      <input
+        type="text"
+        v-bind:value="myInputValue2"
+        v-on:input="myInputValue2 = $event.target.value"
+      />
+      <br>
+      <!-- Same as -->
+      <input type="text" v-bind:value="myInputValue2" v-on:input="fireMe" />
+      <!-- Custom input component -->
+      <div>
+        <h4>Custom input component</h4>
+        <label for="input1">Input1</label>
+        <custom-input
+          id="input1"          
+          v-bind:value="searchText1"
+          v-on:input="searchText1 = $event"
+        ></custom-input>
+        <br>
+        <label for="input2">Input2</label>
+        <custom-input
+          id="input2"          
+          v-bind:value="searchText2"
+          v-on:input="searchText2 = $event"
+        ></custom-input>
+        <br>
+        <label for="input3">Input3</label>
+        <custom-input
+          id="input3"          
+          v-model="searchText3"
+        ></custom-input>
+      </div>
+    </div>
+    <hr>
+    <!-- Content Distribution with Slots -->
+    <div id="demo-alert-box">
+      <h4>Content Distribution with Slots</h3>
+      <alert-box>
+        Something bad happened.
+      </alert-box>
+    </div>
+    <hr>
+    <!-- Dynamic Components -->
+    <div id="dynamic-component-demo">
+      <h4>Dynamic Components</h3>
+      <button
+        v-for="tab in tabs"        
+        v-bind:class="['tab-button', { active: currentTab === tab }]"
+        v-on:click="currentTab = tab"
+      >
+        {{ tab }}
+      </button>
+      <component v-bind:is="currentTabComponent" class="tab"></component>
+    </div>
+  </body>
 
-        <div id="example-4">
-            <h4>Checkbox</h4>
-            <input
-                type="checkbox"
-                id="jack"
-                value="Jack"
-                v-model="checkedNames"
-            />
-            <label for="jack">Jack</label>
-            <input
-                type="checkbox"
-                id="john"
-                value="John"
-                v-model="checkedNames"
-            />
-            <label for="john">John</label>
-            <input
-                type="checkbox"
-                id="mike"
-                value="Mike"
-                v-model="checkedNames"
-            />
-            <label for="mike">Mike</label>
-            <br />
-            <span>Checked names: {{ checkedNames }}</span>
-
-            <h4>Select</h4>
-            <select v-model="selected">
-                <option disabled value="">Please select one</option>
-                <option>A</option>
-                <option>B</option>
-                <option>C</option>
-            </select>
-            <span>Selected: {{ selected }}</span>
-
-            <h4>Dynamic options rendered with v-for:</h4>
-            <select v-model="selectedDynamic">
-                <option v-for="option in options" v-bind:value="option.value">
-                    {{ option.text }}
-                </option>
-            </select>
-            <span>selectedDynamic: {{ selectedDynamic }}</span>
-        </div>
-
-        <div id="example-5">
-            <h4>Value bindings</h4>
-            <h5>Radio</h5>
-            <input
-                type="radio"
-                v-model="pick"
-                v-bind:value="radioObjectOption1"
-            />
-            <h5>Select</h5>
-            <select v-model="selectedVbind">
-                <!-- inline object literal -->
-                <option v-bind:value="{ number: 123 }">123</option>
-            </select>
-        </div>
-
-        <!-- Components -->
-        <div id="components-demo">
-            <button-counter></button-counter>
-            <button-counter></button-counter>
-            <button-counter></button-counter>
-
-            <blog-post title="My first blog"></blog-post>
-            <blog-post title="My second blog"></blog-post>
-
-            <blog-post
-                v-for="post in posts"
-                v-bind:key="post.id"
-                v-bind:title="post.title"
-                v-bind:image="post.imageLink"
-            ></blog-post>
-        </div>
-    </body>
-
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <script src="./play.js"></script>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="./play.js"></script>
 </html>
