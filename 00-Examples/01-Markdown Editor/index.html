@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Markdown Editor</title>
+        <script src="https://unpkg.com/vue"></script>
+        <script src="https://unpkg.com/marked@0.3.6"></script>
+        <script src="https://unpkg.com/lodash@4.16.0"></script>
+        <link rel="stylesheet" type="text/css" href="./style.css" />
+    </head>
+    <body>
+        <div id="editor">
+            <textarea :value="input" @input="update"></textarea>
+            <div v-html="compiledMarkdown"></div>
+            <div>{{now}}</div>
+        </div>
+
+        <script>
+            new Vue({
+                el: "#editor",
+                data: {
+                    input: "# hello",
+                    count: 0,
+                },
+                computed: {
+                    compiledMarkdown: function () {
+                        console.log(marked(this.input));
+                        return marked(this.input);
+                    },
+                },
+                methods: {
+                    //https://lodash.com/docs/4.17.15#debounce
+                    update: _.debounce(function (e) {
+                        // console.log(this);
+                        // console.log(`deb ${this.count++}`);
+                        this.input = e.target.value;
+                    }, 1000),
+                    updateS: function (e) {
+                        setTimeout(() => {
+                            // console.log("ST", this);
+                            // console.log(`deb ${this.count++}`);
+                            this.input = e.target.value;
+                        }, 1000);
+                    },
+                },
+            });
+        </script>
+    </body>
+</html>
